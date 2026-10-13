@@ -157,7 +157,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J9BMMS9TZV;
+				DEVELOPMENT_TEAM = 38L7ZMD32K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used to scan and recognize faces.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -182,7 +182,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = J9BMMS9TZV;
+				DEVELOPMENT_TEAM = 38L7ZMD32K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "The camera is used to scan and recognize faces.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

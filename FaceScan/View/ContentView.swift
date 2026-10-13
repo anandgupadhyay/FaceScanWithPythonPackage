@@ -3,7 +3,7 @@ import SwiftUI
 /// Home screen of this demo app. It shows how another app would open `FaceScanView`
 /// and react to its `onSuccess` and `onClose` closures.
 struct ContentView: View {
-    // Can be pre-filled when launching, e.g. `-demoUserName Tirth -demoImageURL https://…`
+    // Can be pre-filled when launching, e.g. `-demoUserName Anand -demoImageURL https://…`
     @State private var imageURL = UserDefaults.standard.string(forKey: "demoImageURL") ?? ""
     @State private var userName = UserDefaults.standard.string(forKey: "demoUserName") ?? ""
     @State private var showScanner = false

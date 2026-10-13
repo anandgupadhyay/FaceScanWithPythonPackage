@@ -6,8 +6,8 @@ import UIKit
 ///     #import "YourApp-Swift.h"
 ///
 ///     [FaceVerification presentFrom:self
-///                          userName:@"Tirth"
-///                          imageURL:@"https://example.com/photo.jpg"
+///                          userName:@"Anand"
+///                          imageURL:@"https://drive.google.com/file/d/1dx2ddSCBvSz_eFUbTsFOZ-C-gY-U1KK_/view?usp=drive_link"
 ///                        themeColor:UIColor.systemOrangeColor
 ///                         onSuccess:^(float confidence) { /* verified */ }
 ///                          onCancel:^{ /* user cancelled */ }];

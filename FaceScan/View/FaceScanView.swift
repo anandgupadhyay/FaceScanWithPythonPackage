@@ -103,7 +103,7 @@ struct FaceScanView: View {
 
     private var addFaceRow: some View {
         HStack {
-            TextField("Name (e.g. Tirth)", text: $newName)
+            TextField("Name (e.g. Anand)", text: $newName)
                 .textFieldStyle(.roundedBorder)
                 .autocorrectionDisabled()
             Button("Add face") { viewModel.enrollFromCamera(name: trimmedName) }
