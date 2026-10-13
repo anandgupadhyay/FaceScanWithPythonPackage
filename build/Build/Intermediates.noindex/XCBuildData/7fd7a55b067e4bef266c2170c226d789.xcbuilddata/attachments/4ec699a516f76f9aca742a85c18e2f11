@@ -1,0 +1,99 @@
+{
+  "" : {
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScan-primary.dia",
+    "emit-module-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScan-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScan-primary-emit-module.dia",
+    "pch" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScan-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScan-primary.swiftdeps"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/App/FaceScanApp.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanApp~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/Controller/CameraController.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraController~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/Controller/FaceRecognizer.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceRecognizer~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/Model/FaceScanModels.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanModels~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/View/CameraPreview.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/CameraPreview~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/View/ContentView.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/View/FaceScanView.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanView~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/ViewModel/FaceScanViewModel.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceScanViewModel~partial.swiftmodule"
+  },
+  "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/DerivedSources/CoreMLGenerated/FaceNet/FaceNet.swift" : {
+    "const-values" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet.swiftconstvalues",
+    "dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet.d",
+    "diagnostics" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet.dia",
+    "index-unit-output-path" : "/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet.o",
+    "llvm-bc" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet.bc",
+    "object" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet.o",
+    "swift-dependencies" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet.swiftdeps",
+    "swiftmodule" : "/Users/tirths/Digital Auxilio/FaceScan/build/Build/Intermediates.noindex/FaceScan.build/Debug-iphonesimulator/FaceScan.build/Objects-normal/arm64/FaceNet~partial.swiftmodule"
+  }
+}

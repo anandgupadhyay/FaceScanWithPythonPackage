@@ -1,0 +1,80 @@
+{
+  "source": "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Face Scan",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "Camera not available\nUse “Scan photo” below",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "Name (e.g. Tirth)",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 37
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add face",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 40
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add from photo",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 46
+        }
+      },
+      {
+        "comment": "",
+        "key": "Scan photo",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "Known people",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "Type a name and tap “Add face”. It captures 5 samples. Tap it twice per person for best results.",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld sample%@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 66
+        }
+      }
+    ]
+  },
+  "version": 1
+}

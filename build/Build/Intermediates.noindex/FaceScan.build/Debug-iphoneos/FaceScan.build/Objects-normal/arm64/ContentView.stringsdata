@@ -1,0 +1,56 @@
+{
+  "source": "/Users/tirths/Digital Auxilio/FaceScan/FaceScan/View/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Face Scan Demo",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 51
+        }
+      },
+      {
+        "comment": "",
+        "key": "With a URL: the scan closes as soon as your face matches that photo.\nWithout a URL: it names saved people until you close it.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "User name (for the verify popup)",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 25
+        }
+      },
+      {
+        "comment": "",
+        "key": "Image URL to unlock with (optional)",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Open Face Scan",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 35
+        }
+      },
+      {
+        "comment": "",
+        "key": "Verify popup (called from Objective-C)",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 39
+        }
+      }
+    ]
+  },
+  "version": 1
+}
