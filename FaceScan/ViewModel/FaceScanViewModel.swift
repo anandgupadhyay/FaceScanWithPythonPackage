@@ -11,6 +11,9 @@ final class FaceScanViewModel: ObservableObject {
     /// True while a reference photo from a URL is loaded; the camera then checks faces against it.
     @Published var hasReference = false
     @Published var isUnlocked = false
+    /// How many scans have matched the URL photo so far, from 0 up to `matchesToVerify`.
+    /// The verify popup shows one dot per match.
+    @Published var matchCount = 0
 
     /// Called on the main thread each time a face is matched (a saved person, or the URL image).
     var onSuccess: ((FaceScanSuccess) -> Void)?
@@ -31,6 +34,12 @@ final class FaceScanViewModel: ObservableObject {
     /// A result must win this many of the last `voteWindow` scans before it is shown/printed.
     private let voteWindow = 5
     private let votesNeeded = 3
+    /// Total matching scans needed to verify against the URL photo. They do not have to be
+    /// in a row: match, no match, match… still counts up. The count restarts when the face leaves.
+    let matchesToVerify = 5
+    /// A scan scoring below this (0.50 = 50%) looks like a different person, so the count
+    /// (and the dots) starts again from zero.
+    private let resetBelowConfidence: Float = 0.50
 
     // Only touched on camera.queue
     private var lastPrinted: String?
@@ -39,9 +48,15 @@ final class FaceScanViewModel: ObservableObject {
     private var enrollingName: String?
     private var enrollCaptured = 0
     private var enrollDeadline = Date.distantPast
+    // Liveness (anti-photo) state for the URL unlock
+    private var recentLive: [Bool] = []
+    private var matchTotal = 0
+    private var bestScore: Float = 0
+    private var missedFaces = 0
+    private let blink = BlinkDetector()
 
     init() {
-        camera.onFrame = { [weak self] frame in self?.handle(frame) }
+        camera.onFrame = { [weak self] frame, depth in self?.handle(frame, depth: depth) }
         camera.onUnavailable = { [weak self] reason in
             print("⚠️ \(reason)")
             DispatchQueue.main.async { self?.cameraAvailable = false }
@@ -63,11 +78,11 @@ final class FaceScanViewModel: ObservableObject {
 
     // MARK: - Frames
 
-    private func handle(_ frame: CGImage) {
+    private func handle(_ frame: CGImage, depth: AVDepthData?) {
         if enrollingName != nil {
             captureEnrollSample(frame)
         } else if let reference {
-            reportVerification(recognizer.verify(frame, against: reference))
+            reportVerification(recognizer.verify(frame, against: reference), depth: depth)
         } else if verifyOnly {
             setLabel("Loading photo…")
         } else {
@@ -141,6 +156,9 @@ final class FaceScanViewModel: ObservableObject {
             self.camera.queue.async {
                 self.reference = embeddings
                 self.recentVotes.removeAll()
+                self.recentLive.removeAll()
+                self.resetMatches()
+                self.blink.reset()
                 self.lastPrinted = nil
             }
             DispatchQueue.main.async {
@@ -155,6 +173,9 @@ final class FaceScanViewModel: ObservableObject {
         camera.queue.async {
             self.reference = nil
             self.recentVotes.removeAll()
+            self.recentLive.removeAll()
+            self.resetMatches()
+            self.blink.reset()
             self.lastPrinted = nil
         }
         hasReference = false
@@ -162,41 +183,111 @@ final class FaceScanViewModel: ObservableObject {
         status = nil
     }
 
-    /// Unlocks only when the live face matches the URL image in most of the recent scans.
-    private func reportVerification(_ result: FaceRecognizer.Verification) {
+    /// Unlocks once the face has matched the URL image `matchesToVerify` times in total
+    /// AND it is a live person, not a photo or a screen held up to the camera.
+    private func reportVerification(_ result: FaceRecognizer.Verification, depth: AVDepthData?) {
         let score: Float
+        let face: FaceRecognizer.FaceInfo
         switch result {
         case .noFace:
-            recentVotes.removeAll()
+            // A single dropped frame shouldn't wipe the progress; a face that is really gone should.
+            missedFaces += 1
+            guard missedFaces >= 3 else { return }
+            recentLive.removeAll()
+            blink.reset()
             if lastPrinted == "Match" { print("🔒 Locked: no face in front of the camera") }
             lastPrinted = nil
+            resetMatches()
             setUnlocked(false)
             setLabel("Show your face to unlock")
             return
         case .lowQuality:
             setLabel("Look straight at the camera")
             return
-        case .score(let value):
+        case .score(let value, let info):
             score = value
+            face = info
+        }
+        missedFaces = 0
+
+        let isLive = updateLiveness(face: face, depth: depth)
+        let matched = score >= recognizer.minConfidence
+        if matched {
+            matchTotal += 1
+            bestScore = max(bestScore, score)
+        } else if score < resetBelowConfidence, matchTotal > 0, matchTotal < matchesToVerify {
+            debugLog("score \(percent(score)) is under \(percent(resetBelowConfidence)); match count reset")
+            resetMatches()
+        }
+        setMatchCount(matchTotal)
+        debugLog("url image: \(matched ? "Match" : "No match") \(percent(score)) (\(min(matchTotal, matchesToVerify))/\(matchesToVerify))")
+
+        // Enough matches only count once the face has also passed the liveness check.
+        let state: String
+        if matchTotal < matchesToVerify {
+            state = "Counting"
+        } else if !isLive {
+            state = camera.hasDepth ? "Photo" : "Blink"
+        } else {
+            state = "Match"
+        }
+        if state != lastPrinted {
+            switch state {
+            case "Match":
+                print("🔓 Unlocked: live face matched the URL image \(matchesToVerify) times (best \(percent(bestScore)))")
+                notifySuccess(name: nil, confidence: bestScore)
+            case "Photo":
+                print("🚫 Not unlocked: the face matches but looks flat (photo or screen?)")
+            case "Blink":
+                print("👁️ Face matched \(matchesToVerify) times; waiting for a blink to confirm a live person")
+            default:
+                break
+            }
+            lastPrinted = state
+        }
+        setUnlocked(state == "Match")
+        switch state {
+        case "Match": setLabel("Unlocked")
+        case "Photo": setLabel("Use your real face, not a photo")
+        case "Blink": setLabel("Close your eyes, then open")
+        default: setLabel(matched ? "Match \(percent(score))" : "No match \(percent(score))")
+        }
+    }
+
+    private func resetMatches() {
+        matchTotal = 0
+        bestScore = 0
+        setMatchCount(0)
+    }
+
+    /// Returns true once this face has shown it is a live person.
+    /// With a depth camera: the face must be 3-D in most recent scans. Without: it must blink.
+    private func updateLiveness(face: FaceRecognizer.FaceInfo, depth: AVDepthData?) -> Bool {
+        guard camera.hasDepth else {
+            if let openness = face.eyeOpenness { blink.update(eyeOpenness: openness) }
+            return blink.hasBlinked
         }
 
-        let vote = score >= recognizer.minConfidence ? "Match" : "No match"
-        debugLog("url image: \(vote) \(percent(score))")
-        guard let winner = stableVote(adding: vote) else {
-            setLabel("Checking…")
-            return
-        }
-        if winner != lastPrinted {
-            if winner == "Match" {
-                print("🔓 Unlocked: face matches the URL image (\(percent(score)) match)")
-                notifySuccess(name: nil, confidence: score)
-            } else {
-                print("🔒 Locked: face does not match the URL image (\(percent(score)) match)")
+        var live = false
+        if let depth {
+            #if DEBUG
+            let box = face.boundingBox
+            debugLog(String(format: "depth check: face box x%.2f y%.2f w%.2f h%.2f | ", box.minX, box.minY, box.width, box.height)
+                     + DepthLiveness.diagnostics(depth: depth, faceBox: box))
+            #endif
+            switch DepthLiveness.check(depth: depth, faceBox: face.boundingBox) {
+            case .live(let relief, let distance):
+                live = true
+                debugLog("liveness: 3-D face, relief \(String(format: "%.1f", relief)) mm at \(String(format: "%.2f", distance)) m")
+            case .flat(let relief, let distance):
+                debugLog("liveness: FLAT, relief \(String(format: "%.1f", relief)) mm at \(String(format: "%.2f", distance)) m")
+            case .unknown:
+                debugLog("liveness: no usable depth on the face")
             }
-            lastPrinted = winner
         }
-        setUnlocked(winner == "Match")
-        setLabel(winner == "Match" ? "Unlocked \(percent(score))" : "No match \(percent(score))")
+        recentLive.append(live)
+        if recentLive.count > voteWindow { recentLive.removeFirst() }
+        return recentLive.filter { $0 }.count >= votesNeeded
     }
 
     /// Turns a Google Drive share link into a direct download link; other https links pass through.
@@ -318,6 +409,11 @@ final class FaceScanViewModel: ObservableObject {
     private func refreshPeople() {
         let list = recognizer.people.map { Person(name: $0.name, samples: $0.samples) }
         DispatchQueue.main.async { self.people = list }
+    }
+
+    private func setMatchCount(_ value: Int) {
+        let count = min(value, matchesToVerify)
+        DispatchQueue.main.async { if self.matchCount != count { self.matchCount = count } }
     }
 
     private func setUnlocked(_ value: Bool) {

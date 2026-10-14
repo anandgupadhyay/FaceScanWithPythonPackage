@@ -7,7 +7,7 @@ import UIKit
 ///
 ///     [FaceVerification presentFrom:self
 ///                          userName:@"Anand"
-///                          imageURL:@"https://drive.google.com/file/d/1dx2ddSCBvSz_eFUbTsFOZ-C-gY-U1KK_/view?usp=drive_link"
+///                          imageURL:@"https://example.com/photo.jpg"
 ///                        themeColor:UIColor.systemOrangeColor
 ///                         onSuccess:^(float confidence) { /* verified */ }
 ///                          onCancel:^{ /* user cancelled */ }];

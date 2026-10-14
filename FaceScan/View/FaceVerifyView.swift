@@ -24,6 +24,7 @@ struct FaceVerifyView: View {
                     .multilineTextAlignment(.center)
 
                 cameraArea
+                matchDots
 
                 if let status = viewModel.status, !verified {
                     Text(status)
@@ -45,6 +46,21 @@ struct FaceVerifyView: View {
         .tint(themeColor)
         .onAppear(perform: setUp)
         .onDisappear { viewModel.stop() }
+    }
+
+    /// One dot per matching scan (they need not be in a row); when all are filled the face is accepted.
+    private var matchDots: some View {
+        let filled = verified ? viewModel.matchesToVerify : viewModel.matchCount
+        return HStack(spacing: 12) {
+            ForEach(0..<viewModel.matchesToVerify, id: \.self) { index in
+                Circle()
+                    .fill(index < filled ? themeColor : Color.clear)
+                    .overlay(Circle().stroke(index < filled ? themeColor : Color.secondary.opacity(0.5), lineWidth: 2))
+                    .frame(width: 16, height: 16)
+            }
+        }
+        .animation(.easeOut(duration: 0.2), value: filled)
+        .accessibilityLabel("\(filled) of \(viewModel.matchesToVerify) matches")
     }
 
     private var cameraArea: some View {

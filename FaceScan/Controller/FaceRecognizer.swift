@@ -1,14 +1,16 @@
 import Vision
-import CoreML
 import UIKit
 import CoreImage
 
-/// Recognizes people with FaceNet, a neural network trained specifically to tell faces apart.
+/// Recognizes people using only Apple's Vision framework (no third-party model).
 ///
-/// Each face is checked for quality, rotated so the eyes are level, cropped, and turned into a
-/// 512-number "embedding". Embeddings of the same person are close together; different people
-/// are far apart. A new face is compared with every saved (old) photo of each person, and the
-/// name is only reported when the match is at least `minConfidence` (95%).
+/// Each face is checked for quality, rotated so the eyes are level, cropped, made grayscale and
+/// turned into a "feature print" (a list of numbers describing the image). Prints of the same
+/// person are usually closer together than prints of different people. A new face is compared
+/// with every saved (old) photo, and a match is only reported at `minConfidence` (80%) or more.
+///
+/// Note: Vision's feature print describes images in general, not faces specifically, so it is
+/// less reliable than a dedicated face model. Lighting, angle and glasses affect it more.
 final class FaceRecognizer {
     enum Result {
         case noFace
@@ -29,7 +31,8 @@ final class FaceRecognizer {
 
     static let shared = FaceRecognizer()
 
-    /// The name is shown only when the match is at least this sure (0.95 = 95%).
+    /// A face counts as a match only when the score is at least this high (0.80 = 80%).
+    /// Raise it to be stricter (fewer wrong people accepted, more right people rejected).
     var minConfidence: Float = 0.95
     /// Vision's face capture quality (0…1). Faces below this are ignored by the live camera.
     var minQuality: Float = 0.25
@@ -37,20 +40,11 @@ final class FaceRecognizer {
     private var known: [String: [[Float]]] = [:]
     private let lock = NSLock()
     private let ciContext = CIContext()
-    private let model: VNCoreMLModel
-    private let inputSize: CGFloat = 160
-    private let storeURL = URL.documentsDirectory.appending(path: "faces_facenet.json")
+    private let inputSize: CGFloat = 224
+    // Prints from different engines can't be compared, so each engine keeps its own file.
+    private let storeURL = URL.documentsDirectory.appending(path: "faces_vision.json")
 
-    private init() {
-        let config = MLModelConfiguration()
-        #if targetEnvironment(simulator)
-        config.computeUnits = .cpuOnly // the Simulator can't run the model on the GPU / Neural Engine
-        #else
-        config.computeUnits = .all
-        #endif
-        model = try! VNCoreMLModel(for: FaceNet(configuration: config).model)
-        load()
-    }
+    private init() { load() }
 
     /// Names with how many face samples each one has (the mirrored copy is not counted).
     var people: [(name: String, samples: Int)] {
@@ -96,10 +90,18 @@ final class FaceRecognizer {
 
     // MARK: - One-to-one check against a reference photo (e.g. downloaded from a URL)
 
+    /// Where the face is and how open the eyes are; used for the liveness (anti-photo) check.
+    struct FaceInfo {
+        /// Vision bounding box: normalized 0…1, origin bottom-left.
+        let boundingBox: CGRect
+        /// Eye height ÷ eye width averaged over both eyes, or nil if the eyes weren't found.
+        let eyeOpenness: Float?
+    }
+
     enum Verification {
         case noFace
         case lowQuality(quality: Float)
-        case score(Float)
+        case score(Float, face: FaceInfo)
     }
 
     /// Embeddings (original + mirrored) of the face in a reference photo, or nil if it has no face.
@@ -118,13 +120,23 @@ final class FaceRecognizer {
         guard let probe = embedding(of: sample.face),
               let closest = reference.map({ distance(probe, $0) }).min()
         else { return .noFace }
-        return .score(Self.confidence(forDistance: closest))
+        return .score(Self.confidence(forDistance: closest), face: sample.info)
     }
 
-    /// Turns an embedding distance into a 0…1 match score.
-    /// FaceNet (VGGFace2) treats ~1.05 as the 50/50 point; 95% needs a distance of about 0.8 or less.
+    /// The distance treated as a 50/50 match. Lower = stricter.
+    /// Calibrated from real scans on an iPhone 12: the right person against a clear, front-facing
+    /// photo scored 0.54–0.70 (mostly under 0.62); a poor match scored around 0.80.
+    static var midpointDistance: Float = 0.80
+    /// How sharply confidence falls off around the midpoint.
+    static var steepness: Float = 20
+
+    /// Turns a feature-print distance into a 0…1 match score.
+    /// With the defaults, 80% needs a distance of about 0.73 or less (95% needs about 0.65).
     static func confidence(forDistance d: Float) -> Float {
-        1 / (1 + exp(12 * (d - 1.05)))
+        #if DEBUG
+        print("   · distance \(String(format: "%.3f", d))")
+        #endif
+        return 1 / (1 + exp(steepness * (d - midpointDistance)))
     }
 
     // MARK: - Face pipeline
@@ -132,9 +144,10 @@ final class FaceRecognizer {
     private struct FaceSample {
         let face: CIImage   // aligned, square, inputSize × inputSize, origin at (0, 0)
         let quality: Float
+        let info: FaceInfo
     }
 
-    /// Finds the largest face, levels the eyes and crops a square face image for FaceNet.
+    /// Finds the largest face, levels the eyes and crops a square grayscale face image.
     private func alignedFace(in image: CGImage) -> FaceSample? {
         let handler = VNImageRequestHandler(cgImage: image)
         let landmarksRequest = VNDetectFaceLandmarksRequest()
@@ -161,8 +174,10 @@ final class FaceRecognizer {
         let box = VNImageRectForNormalizedRect(face.boundingBox, image.width, image.height)
 
         var angle: CGFloat = 0
+        var eyeOpenness: Float?
         if let left = face.landmarks?.leftEye?.pointsInImage(imageSize: size), !left.isEmpty,
            let right = face.landmarks?.rightEye?.pointsInImage(imageSize: size), !right.isEmpty {
+            eyeOpenness = (openness(left) + openness(right)) / 2
             let a = centroid(left), b = centroid(right)
             var dx = b.x - a.x, dy = b.y - a.y
             if dx < 0 { dx = -dx; dy = -dy } // always measure left-to-right in the image
@@ -179,38 +194,51 @@ final class FaceRecognizer {
             .clampedToExtent() // fill any area outside the photo with edge pixels, not black
             .transformed(by: transform)
             .cropped(to: CGRect(x: 0, y: 0, width: inputSize, height: inputSize))
+            // Grayscale, so skin tone under different lighting matters less.
+            .applyingFilter("CIColorControls", parameters: [kCIInputSaturationKey: 0])
 
-        return FaceSample(face: aligned, quality: quality)
+        return FaceSample(face: aligned, quality: quality,
+                          info: FaceInfo(boundingBox: face.boundingBox, eyeOpenness: eyeOpenness))
     }
 
     private func mirror(_ face: CIImage) -> CIImage {
         face.transformed(by: CGAffineTransform(scaleX: -1, y: 1).translatedBy(x: -inputSize, y: 0))
     }
 
-    /// Runs FaceNet and returns a unit-length 512-number embedding.
+    /// Runs Apple's image feature print on the face and returns it as a unit-length list of numbers.
     private func embedding(of face: CIImage) -> [Float]? {
         guard let cgImage = ciContext.createCGImage(face, from: face.extent) else { return nil }
-        let request = VNCoreMLRequest(model: model)
+        let request = VNGenerateImageFeaturePrintRequest()
         request.imageCropAndScaleOption = .scaleFill
+        #if targetEnvironment(simulator)
+        request.usesCPUOnly = true // the Simulator has no Neural Engine
+        #endif
         do {
             try VNImageRequestHandler(cgImage: cgImage).perform([request])
         } catch {
-            print("⚠️ FaceNet model failed to run: \(error.localizedDescription)")
+            print("⚠️ Feature print failed: \(error.localizedDescription)")
             return nil
         }
-        guard let array = (request.results?.first as? VNCoreMLFeatureValueObservation)?
-            .featureValue.multiArrayValue else {
-            print("⚠️ FaceNet model returned no result")
+        guard let observation = request.results?.first, observation.elementType == .float else {
+            print("⚠️ Feature print returned no result")
             return nil
         }
 
-        let values = (0..<array.count).map { array[$0].floatValue }
+        let values = observation.data.withUnsafeBytes { Array($0.bindMemory(to: Float.self)) }
         let norm = sqrt(values.reduce(0) { $0 + $1 * $1 })
         return norm > 0 ? values.map { $0 / norm } : nil
     }
 
     private func distance(_ a: [Float], _ b: [Float]) -> Float {
         sqrt(zip(a, b).reduce(0) { $0 + ($1.0 - $1.1) * ($1.0 - $1.1) })
+    }
+
+    /// Eye outline height ÷ width: about 0.3 when open, close to 0.1 when shut.
+    private func openness(_ eye: [CGPoint]) -> Float {
+        let xs = eye.map(\.x), ys = eye.map(\.y)
+        let width = (xs.max() ?? 0) - (xs.min() ?? 0)
+        let height = (ys.max() ?? 0) - (ys.min() ?? 0)
+        return width > 0 ? Float(height / width) : 0
     }
 
     private func centroid(_ points: [CGPoint]) -> CGPoint {
